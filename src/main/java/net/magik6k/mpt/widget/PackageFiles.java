@@ -37,7 +37,7 @@ public class PackageFiles extends VerticalPanel{
 		final TablePanel grid = new TablePanel(3, list.size());
 		
 		for(final MptFile file : list){
-			grid.put(new TextLabel(file.name));
+			grid.put(new TextLabel(new StringBuilder("<b style='font-weight:400;'>").append(file.name).append("</b>").toString()));
 			final int delid = grid.put(new InternalLink("Edit", new ClickHandler() {
 				
 				@Override

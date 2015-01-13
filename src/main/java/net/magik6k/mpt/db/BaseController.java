@@ -9,7 +9,7 @@ import com.mongodb.MongoClient;
 public class BaseController {
 	public static final BaseController instance = new BaseController();
 	
-	private final MongoClient mongo;
+	//private final MongoClient mongo;
 	private DB db;
 	
 	private BaseController() {
@@ -19,7 +19,7 @@ public class BaseController {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-		this.mongo = mongo;
+//		this.mongo = mongo;
 		db = mongo.getDB("mpt");
 	}
 	

@@ -14,21 +14,16 @@ public class UserBase {
 		users = BaseController.instance.getCollection("users");
 	}
 	
-	public void register(String username, String password) throws IllegalUserActionException{
+	public void register(String username) throws IllegalUserActionException{
 		if(userExists(username))throw new IllegalUserActionException("User is already registered!");
 		
 		BasicDBObject user = new BasicDBObject();
 		user.put("name", username);
-		user.put("password", password);
 		users.insert(user);
 	}
 	
 	public boolean userExists(String user){
 		 return users.findOne(new BasicDBObject().append("name", user)) != null;
-	}
-	
-	public boolean userMatches(String user, String password){
-		 return users.findOne(new BasicDBObject().append("name", user).append("password", password)) != null;
 	}
 	
 }

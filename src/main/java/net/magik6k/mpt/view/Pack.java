@@ -1,5 +1,6 @@
 package net.magik6k.mpt.view;
 
+import net.magik6k.jwwf.enums.PanelAlign;
 import net.magik6k.jwwf.handlers.ClickHandler;
 import net.magik6k.jwwf.util.NamedWidget;
 import net.magik6k.jwwf.widgets.basic.TextLabel;
@@ -14,13 +15,13 @@ public class Pack extends VerticalPanel{
 
 	public Pack(final MptClient user, final String repo, String pack) {
 		super(2);
-		this.put(new HorizontalPanel(2, new TextLabel("Package: <b>"+pack+"</b>"),new Button("Back to repo", new ClickHandler() {
+		this.put(new HorizontalPanel(2, new TextLabel("Package: <b style='font-size:24px;'>"+pack+"</b>"),new Button("Back to repo", new ClickHandler() {
 			
 			@Override
 			public void clicked() {
 				user.userPanel.put(new Repo(user, repo));
 			}
-		})));
+		})).setElementAlign(PanelAlign.MIDDLE).setElementSpacing(8));
 		
 		TabbedPanel cont = new TabbedPanel(2,
 			new NamedWidget(new PackageFiles(user, repo, pack), "Files"),

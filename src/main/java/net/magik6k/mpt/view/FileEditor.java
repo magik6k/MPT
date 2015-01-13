@@ -46,7 +46,7 @@ public class FileEditor extends VerticalPanel{
 					actionLabel.setText("Auto-Saved");
 				}
 			}
-		}, AceMode.LUA, AceTheme.VIBRANT_INK);
+		}, 1200, 1000,  AceMode.LUA, AceTheme.VIBRANT_INK);
 		
 		autosave.editor = editor;
 		

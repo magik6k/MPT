@@ -1,16 +1,22 @@
 package net.magik6k.mpt;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import net.magik6k.jwwf.core.MainFrame;
 import net.magik6k.jwwf.core.User;
+import net.magik6k.jwwf.oauth.OAuth2Button;
+import net.magik6k.jwwf.oauth.OAuthHandler;
 import net.magik6k.jwwf.widgets.basic.PreformattedTextLabel;
 import net.magik6k.jwwf.widgets.basic.TextLabel;
 import net.magik6k.jwwf.widgets.basic.panel.VerticalPanel;
-import net.magik6k.mpt.action.LoginHandler;
-import net.magik6k.mpt.panel.LoginPanel;
+import net.magik6k.mpt.db.UserBase;
 import net.magik6k.mpt.panel.UserPanel;
+import net.magik6k.mpt.util.IllegalUserActionException;
+
+import org.eclipse.egit.github.core.client.GitHubClient;
+import org.eclipse.egit.github.core.service.UserService;
 
 public class MptClient extends User{
 	
@@ -25,6 +31,8 @@ public class MptClient extends User{
 	public void logout(){
 		auth.logout();
 		userPanel = null;
+		getUserData().set("__jwwf.oauth.code","");
+		getUserData().set("__jwwf.oauth.token","");
 		viewLoginPanel();
 	}
 	
@@ -33,7 +41,7 @@ public class MptClient extends User{
 	}
 	
 	public void handleCriticalError(Exception ex){
-		TextLabel fail = new TextLabel("User has performed illegal action:");
+		TextLabel fail = new TextLabel("User has performed illegal action and/or an error ocured:");
 		PreformattedTextLabel exceptionLabel = new PreformattedTextLabel(ex.getMessage());
 		StringWriter sw = new StringWriter();
 		ex.printStackTrace(new PrintWriter(sw));
@@ -43,15 +51,34 @@ public class MptClient extends User{
 
 	private void viewLoginPanel(){
 		final MptClient clinetInstance = this;
-		rootFrame.put(new LoginPanel(new LoginHandler() {
-			
-			@Override
-			public void login(String user, String password) {
-				System.out.printf("login %s\n", user);
-				auth.loginAs(user);
-				userPanel = new UserPanel(clinetInstance);
-				rootFrame.put(userPanel);
-			}
-		}, this));
+		
+		rootFrame.put(new OAuth2Button("Login with GitHub", Settings.instance.getProperty("githubClientID")
+				, Settings.instance.getProperty("githubClientSecret")
+				, "https://github.com/login/oauth/authorize", "", Settings.instance.getProperty("githubAuthRedirURL")
+				, "https://github.com/login/oauth/access_token", new OAuthHandler() {
+					
+					@Override
+					public void authorized(String accessToken) {
+						rootFrame.put(new TextLabel("Please wait.. Checking your identity"));
+						GitHubClient client = new GitHubClient();
+						client.setOAuth2Token(accessToken);
+						UserService service = new UserService(client);
+						try {
+							org.eclipse.egit.github.core.User user = service.getUser();
+							if(!UserBase.instance.userExists(user.getLogin()));
+								try {
+									UserBase.instance.register(user.getLogin());
+								} catch (IllegalUserActionException e) {
+									handleCriticalError(e);
+								}
+							
+							auth.loginAs(user.getLogin());
+							userPanel = new UserPanel(clinetInstance);
+							rootFrame.put(userPanel);
+						} catch (IOException e) {
+							handleCriticalError(e);
+						}
+					}
+				}));
 	}
 }

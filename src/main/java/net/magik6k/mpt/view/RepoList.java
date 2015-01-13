@@ -21,7 +21,7 @@ public class RepoList extends VerticalPanel{
 		List<String> repos = RepoBase.instance.getUserRepos(user.getAuth().getUsername());
 		
 		for(final String repo : repos){
-			repoList.put(new TextLabel("<b>"+repo+"</b>"));
+			repoList.put(new TextLabel("<b style='font-weight:400;'>"+repo+"</b>"));
 			repoList.put(new InternalLink("View", new ClickHandler() {
 				
 				@Override
