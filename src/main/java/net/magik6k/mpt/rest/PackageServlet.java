@@ -31,6 +31,11 @@ public class PackageServlet extends HttpServlet{
 			for(MptFile file : PackageBase.instance.getFiles(summary.name)){
 				res.append("\"").append(file.name).append("\",");
 			}
+			res.append("nil},dependencies={");
+			
+			for(String dep : PackageBase.instance.getDependencies(summary.name)){
+				res.append("\"").append(dep).append("\",");
+			}
 			res.append("nil}}");
 			
 			resp.setContentType("text/lua");
