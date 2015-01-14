@@ -30,8 +30,18 @@ public class Main {
 		PackageBase.instance = new PackageBase();
 		
 		JwwfServer.debugOutput(false);
-		new JwwfServer( port )
-			.attachPlugin(new AcePlugin())
+		JwwfServer server = new JwwfServer( port );
+		
+		try {
+			String addr = args[1];
+			if(addr != null){
+				server.setApiUrl(addr);
+			}
+		} catch( Exception e ) {
+			System.out.println( "No custom API address given, using automatic mode." );
+		}
+		
+		server.attachPlugin(new AcePlugin())
 			.attachPlugin(new JwwfOAuthPlugin())
 			.attachPlugin(new MptPlugin())
 			.bindServlet(new PackageServlet(), "/api/package/*")

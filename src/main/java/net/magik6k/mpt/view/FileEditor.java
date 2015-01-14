@@ -18,7 +18,7 @@ import net.magik6k.mpt.plugin.FadeOutLabel;
 
 public class FileEditor extends VerticalPanel{
 
-	public FileEditor(final MptClient user, final String repo, final String pack, String file) {
+	public FileEditor(final MptClient user, final String repo, final String pack, final String file) {
 		super(3);
 		HorizontalPanel menu = new HorizontalPanel(2, 32).setElementAlign(PanelAlign.MIDDLE);
 		

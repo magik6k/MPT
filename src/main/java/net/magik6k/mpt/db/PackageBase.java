@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import net.magik6k.mpt.util.MptFile;
 import net.magik6k.mpt.util.VersionUtil;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
@@ -39,6 +40,9 @@ public class PackageBase {
 		
 		pack.put("stats", stats);
 		
+		BasicDBList dependencies = new BasicDBList();
+		pack.put("dependencies", dependencies);
+		
 		packages.insert(pack);
 	}
 	
@@ -56,6 +60,46 @@ public class PackageBase {
 			res.add((String) pack.get("name"));
 		}
 		return res;
+	}
+	
+	public boolean hasDependency(String packagee, String dependency){
+		DBObject pack = packages.findOne(new BasicDBObject().append("name", packagee));
+		BasicDBList dependencies = (BasicDBList)pack.get("dependencies");
+		
+		for(Object dep : dependencies){
+			if(((String)dep).equals(dependency)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void addDependency(String packagee, String dependency){
+		DBObject pack = packages.findOne(new BasicDBObject().append("name", packagee));
+		BasicDBList dependencies = (BasicDBList)pack.get("dependencies");
+		dependencies.add(dependency);
+		pack.put("dependencies", dependencies);
+		packages.update(new BasicDBObject().append("name", packagee), pack);
+	}
+	
+	public void removeDependency(String packagee, String dependency){
+		DBObject pack = packages.findOne(new BasicDBObject().append("name", packagee));
+		BasicDBList dependencies = (BasicDBList)pack.get("dependencies");
+		BasicDBList newDependencies = new BasicDBList();
+		
+		for(Object dep : dependencies){
+			if(!((String)dep).equals(dependency)){
+				newDependencies.add(dep);
+			}
+		}
+		pack.put("dependencies", newDependencies);
+		packages.update(new BasicDBObject().append("name", packagee), pack);
+	}
+	
+	public String[] getDependencies(String packagee){
+		DBObject pack = packages.findOne(new BasicDBObject().append("name", packagee));
+		BasicDBList dependencies = (BasicDBList)pack.get("dependencies");
+		return dependencies.toArray(new String[dependencies.size()]);
 	}
 	
 	public boolean fileExists(String package_, String file){

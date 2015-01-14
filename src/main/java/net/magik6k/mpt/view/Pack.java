@@ -9,6 +9,7 @@ import net.magik6k.jwwf.widgets.basic.panel.HorizontalPanel;
 import net.magik6k.jwwf.widgets.basic.panel.TabbedPanel;
 import net.magik6k.jwwf.widgets.basic.panel.VerticalPanel;
 import net.magik6k.mpt.MptClient;
+import net.magik6k.mpt.widget.PackDependencies;
 import net.magik6k.mpt.widget.PackageFiles;
 
 public class Pack extends VerticalPanel{
@@ -23,11 +24,11 @@ public class Pack extends VerticalPanel{
 			}
 		})).setElementAlign(PanelAlign.MIDDLE).setElementSpacing(8));
 		
-		TabbedPanel cont = new TabbedPanel(2,
+		TabbedPanel cont = new TabbedPanel(3,
 			new NamedWidget(new PackageFiles(user, repo, pack), "Files"),
+			new NamedWidget(new PackDependencies(pack), "Dependencies"),
 			new NamedWidget(new TextLabel("TODO"), "Stats"));
 		this.put(cont);
 		this.setElementSpacing(16);
 	}
-
 }
