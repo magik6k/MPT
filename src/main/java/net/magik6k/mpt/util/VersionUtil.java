@@ -35,6 +35,9 @@ public class VersionUtil {
 				md5.update(file.name.getBytes(Charsets.UTF_8));
 				md5.update(file.content.getBytes(Charsets.UTF_8));
 			}
+			for(String dep : PackageBase.instance.getDependencies(pack)){
+				md5.update(dep.getBytes(Charsets.UTF_8));
+			}
 			return new BigInteger(md5.digest()).toString(16);
 		}
 	}
