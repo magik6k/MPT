@@ -19,7 +19,7 @@ public class FileServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException{
-		Matcher matcher = Pattern.compile("\\/api\\/file\\/([A-Za-z0-9_]+)(.+)").matcher(request.getRequestURI());
+		Matcher matcher = Pattern.compile("\\/api\\/file\\/([A-Za-z0-9_\\-.~]+)(.+)").matcher(request.getRequestURI());
 		
 		if(matcher.matches()){
 			String pack = matcher.group(1);
