@@ -8,6 +8,7 @@ import net.magik6k.jwwf.core.MainFrame;
 import net.magik6k.jwwf.core.User;
 import net.magik6k.jwwf.oauth.OAuth2Button;
 import net.magik6k.jwwf.oauth.OAuthHandler;
+import net.magik6k.jwwf.widgets.basic.ExternalLink;
 import net.magik6k.jwwf.widgets.basic.PreformattedTextLabel;
 import net.magik6k.jwwf.widgets.basic.TextLabel;
 import net.magik6k.jwwf.widgets.basic.panel.VerticalPanel;
@@ -52,7 +53,13 @@ public class MptClient extends User{
 	private void viewLoginPanel(){
 		final MptClient clinetInstance = this;
 		
-		rootFrame.put(new OAuth2Button("Login with GitHub", Settings.instance.getProperty("githubClientID")
+		VerticalPanel frontPanel = new VerticalPanel(4);
+		
+		frontPanel.put(new TextLabel("<h2>Welcome to MPTv2 web IDE</h2>"));
+		frontPanel.put(new TextLabel("To login simply click the login button. You may help making this place better by reporting issues on "));
+		frontPanel.put(new ExternalLink("https://github.com/magik6k/MPT2", "the GitHub project page"));
+		
+		frontPanel.put(new OAuth2Button("Login with GitHub", Settings.instance.getProperty("githubClientID")
 				, Settings.instance.getProperty("githubClientSecret")
 				, "https://github.com/login/oauth/authorize", "", Settings.instance.getProperty("githubAuthRedirURL")
 				, "https://github.com/login/oauth/access_token", new OAuthHandler() {
@@ -80,5 +87,7 @@ public class MptClient extends User{
 						}
 					}
 				}));
+		
+		rootFrame.put(frontPanel);
 	}
 }

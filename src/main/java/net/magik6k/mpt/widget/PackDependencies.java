@@ -44,7 +44,7 @@ public class PackDependencies extends VerticalPanel {
 	}
 	
 	private void refreshDependencies(){
-		String[] dependencies = PackageBase.instance.getDependencies(packagee);
+		final String[] dependencies = PackageBase.instance.getDependencies(packagee);
 		VerticalPanel panel = new VerticalPanel(2);
 		panel.put(new TextLabel("<b>Dependency list:</b>"));
 		TablePanel deps = new TablePanel(2, dependencies.length);
