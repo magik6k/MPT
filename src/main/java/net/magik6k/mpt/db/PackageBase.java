@@ -64,6 +64,10 @@ public class PackageBase {
 		return res;
 	}
 	
+	public void removePackage(String packagee){
+		packages.remove(new BasicDBObject().append("name", packagee));
+	}
+	
 	/////////////////////DEPENDENCIES
 	
 	public boolean hasDependency(String packagee, String dependency){
