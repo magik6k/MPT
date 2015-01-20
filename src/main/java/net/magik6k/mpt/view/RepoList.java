@@ -29,7 +29,13 @@ public class RepoList extends VerticalPanel{
 					user.userPanel.put(new Repo(user, repo));
 				}
 			}));
-			repoList.put(new TextLabel("Settings"));
+			repoList.put(new InternalLink("Settings", new ClickHandler() {
+				
+				@Override
+				public void clicked() {
+					user.userPanel.put(new RepoSettings(user, repo));
+				}
+			}));
 		}
 		
 		this.put(repoList);

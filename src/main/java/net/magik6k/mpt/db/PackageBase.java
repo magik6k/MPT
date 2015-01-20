@@ -21,6 +21,8 @@ public class PackageBase {
 		packages = BaseController.instance.getCollection("packages");
 	}
 	
+	//////////////////PACKAGES
+	
 	public boolean exists(String package_){
 		 return packages.findOne(new BasicDBObject().append("name", package_)) != null;
 	}
@@ -61,6 +63,8 @@ public class PackageBase {
 		}
 		return res;
 	}
+	
+	/////////////////////DEPENDENCIES
 	
 	public boolean hasDependency(String packagee, String dependency){
 		DBObject pack = packages.findOne(new BasicDBObject().append("name", packagee));
@@ -105,6 +109,8 @@ public class PackageBase {
 		BasicDBList dependencies = (BasicDBList)pack.get("dependencies");
 		return dependencies.toArray(new String[dependencies.size()]);
 	}
+	
+	////////////////FILES
 	
 	public boolean fileExists(String package_, String file){
 		file = safeFile(file);
@@ -185,6 +191,8 @@ public class PackageBase {
 		
 		recalculatePackageChecksum(pack_);
 	}
+	
+	//////////////SUMMARY
 	
 	public PackageSummary getSummary(String packagee){
 		BasicDBObject pack = (BasicDBObject) packages.findOne(new BasicDBObject().append("name", packagee));
