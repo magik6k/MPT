@@ -57,7 +57,7 @@ public class RepoPackages extends VerticalPanel{
 						public void no() {
 							makeList();
 						}
-					}), 1, r);
+					}), r, 1);
 					
 					
 				}
