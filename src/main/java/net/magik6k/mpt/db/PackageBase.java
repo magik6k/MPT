@@ -80,6 +80,8 @@ public class PackageBase {
 		dependencies.add(dependency);
 		pack.put("dependencies", dependencies);
 		packages.update(new BasicDBObject().append("name", packagee), pack);
+		
+		recalculatePackageChecksum(packagee);
 	}
 	
 	public void removeDependency(String packagee, String dependency){
@@ -94,6 +96,8 @@ public class PackageBase {
 		}
 		pack.put("dependencies", newDependencies);
 		packages.update(new BasicDBObject().append("name", packagee), pack);
+		
+		recalculatePackageChecksum(packagee);
 	}
 	
 	public String[] getDependencies(String packagee){
