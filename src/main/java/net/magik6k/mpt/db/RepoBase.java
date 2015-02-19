@@ -110,4 +110,12 @@ public class RepoBase {
 		}
 		return res;
 	}
+
+	public List<String> getAllRepos(){
+		List<String> res = new LinkedList<String>();
+		for(DBObject repo: repos.find()){
+			res.add((String) repo.get("name"));
+		}
+		return res;
+	}
 }
