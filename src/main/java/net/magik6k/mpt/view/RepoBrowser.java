@@ -3,6 +3,7 @@ package net.magik6k.mpt.view;
 import net.magik6k.jwwf.ace.AceEditor;
 import net.magik6k.jwwf.ace.AceMode;
 import net.magik6k.jwwf.ace.AceTheme;
+import net.magik6k.jwwf.enums.PanelAlign;
 import net.magik6k.jwwf.handlers.ClickHandler;
 import net.magik6k.jwwf.widgets.basic.TextLabel;
 import net.magik6k.jwwf.widgets.basic.input.Button;
@@ -27,7 +28,7 @@ public class RepoBrowser extends VerticalPanel {
 	String navFile = "";
 
 	TextLabel nav = new TextLabel("");
-	HorizontalPanel navPanel = new HorizontalPanel(2);
+	HorizontalPanel navPanel = new HorizontalPanel(2).setElementAlign(PanelAlign.MIDDLE);
 	public RepoBrowser(final MptClient user) {
 		super(5);
 		nav.setTextWrapping(false);
