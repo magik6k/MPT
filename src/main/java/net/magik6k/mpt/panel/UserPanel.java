@@ -34,7 +34,7 @@ public class UserPanel extends VerticalPanel{
 				put(new UserProfile(user), 1);
 			}
 		});
-		Button repoBrowser = new Button("Repositories Browser", new ClickHandler() {
+		Button repoBrowser = new Button("Repository Browser", new ClickHandler() {
 			@Override
 			public void clicked() {
 				user.userPanel.put(new RepoBrowser(user));
