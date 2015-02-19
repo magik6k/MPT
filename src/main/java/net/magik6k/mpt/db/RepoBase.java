@@ -114,12 +114,7 @@ public class RepoBase {
 	public List<String> getAllRepos(){
 		List<String> res = new LinkedList<String>();
 		for(DBObject repo: repos.find()){
-			if(repo.containsField("users")){
-				Object userList = repo.get("users");
-				for(Object name : (BasicDBList) userList){
-						res.add((String) repo.get("name"));
-				}
-			}
+			res.add((String) repo.get("name"));
 		}
 		return res;
 	}
