@@ -31,7 +31,6 @@ public class RepoBrowser extends VerticalPanel {
 	HorizontalPanel navPanel = new HorizontalPanel(2).setElementAlign(PanelAlign.MIDDLE);
 	public RepoBrowser(final MptClient user) {
 		super(5);
-		nav.setTextWrapping(false);
 		put(new TextLabel("<hr style=\"width: 512px\"/>"), 0);
 		navPanel.put(createBackButton(), 0);
 		navPanel.put(nav,1);
