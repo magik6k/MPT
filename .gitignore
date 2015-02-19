@@ -7,3 +7,8 @@
 /build.bak/
 /build/
 /gradle.properties
+/.idea
+*.iml
+/mpt.properties
+*.ipr
+*.iws
