@@ -4,12 +4,13 @@ import net.magik6k.jwwf.ace.AceEditor;
 import net.magik6k.jwwf.ace.AceMode;
 import net.magik6k.jwwf.ace.AceTheme;
 import net.magik6k.jwwf.enums.PanelAlign;
+import net.magik6k.jwwf.enums.Type;
 import net.magik6k.jwwf.handlers.ClickHandler;
 import net.magik6k.jwwf.widgets.basic.TextLabel;
 import net.magik6k.jwwf.widgets.basic.input.Button;
 import net.magik6k.jwwf.widgets.basic.input.InternalLink;
-import net.magik6k.jwwf.widgets.basic.panel.HorizontalPanel;
-import net.magik6k.jwwf.widgets.basic.panel.VerticalPanel;
+import net.magik6k.jwwf.widgets.basic.panel.Panel;
+import net.magik6k.jwwf.widgets.basic.panel.TablePanel;
 import net.magik6k.mpt.MptClient;
 import net.magik6k.mpt.db.PackageBase;
 import net.magik6k.mpt.db.RepoBase;
@@ -20,27 +21,25 @@ import java.util.List;
 /**
  * Created by marcin212 on 2015-02-19.
  */
-public class RepoBrowser extends VerticalPanel {
-	final int displayPos = 4;
+public class RepoBrowser extends Panel {
+	final int displayPos = 2;
 	final int statePos = 1;
 	String navRepo = "";
 	String navPackage = "";
 	String navFile = "";
 
 	TextLabel nav = new TextLabel("");
-	HorizontalPanel navPanel = new HorizontalPanel(2).setElementAlign(PanelAlign.MIDDLE);
+	Panel navPanel = new Panel(12, 2);
 	public RepoBrowser(final MptClient user) {
-		super(5);
-		put(new TextLabel("<hr style=\"width: 512px\"/>"), 0);
+		super(12, 3);
 		navPanel.put(createBackButton(), 0);
 		navPanel.put(nav,1);
 		put(navPanel);
-		put(new TextLabel("<hr style=\"width: 512px\"/>"), 3);
-		put(repoList(), 4);
+		put(repoList(), 2);
 	}
 
-	public Button createBackButton(){
-		return new Button("Back", new ClickHandler() {
+	public Button createBackButton() {
+		return new Button("Back", Type.PRIMARY, new ClickHandler() {
 			@Override
 			public void clicked() {
 				if(navRepo.isEmpty()) return;
@@ -59,7 +58,7 @@ public class RepoBrowser extends VerticalPanel {
 		});
 	}
 
-	public void updateState(){
+	public void updateState() {
 		nav.setText("<b>Currently in:</b> "+navRepo+(navPackage.isEmpty()?"":"->"+navPackage)+(navFile.isEmpty()?"":"->"+navFile));
 		navPanel.put(nav, statePos);
 	}
@@ -71,9 +70,9 @@ public class RepoBrowser extends VerticalPanel {
 		updateState();
 	}
 
-	public VerticalPanel repoList(){
+	public Panel repoList() {
 		List<String> repos = RepoBase.instance.getAllRepos();
-		VerticalPanel reposPanel = new VerticalPanel(repos.size());
+		TablePanel reposPanel = new TablePanel(1, repos.size());
 		for(String s: repos){
 			final String name = s;
 			reposPanel.put(new InternalLink(s, new ClickHandler() {
@@ -84,12 +83,12 @@ public class RepoBrowser extends VerticalPanel {
 			}));
 		}
 		setNav("","","");
-		return reposPanel;
+		return reposPanel.asPanel(12);
 	}
 
-	public VerticalPanel getPackages(String reponame){
+	public Panel getPackages(String reponame) {
 		List<String> packages = PackageBase.instance.getPackagesForRepo(reponame);
-		VerticalPanel packagePanel = new VerticalPanel(packages.size());
+		TablePanel packagePanel = new TablePanel(1, packages.size());
 		for (String s: packages) {
 			final String temp = s;
 			packagePanel.put(new InternalLink(s, new ClickHandler() {
@@ -100,12 +99,12 @@ public class RepoBrowser extends VerticalPanel {
 			}));
 		}
 		setNav(reponame,"","");
-		return packagePanel;
+		return packagePanel.asPanel(12);
 	}
 
-	public VerticalPanel fileList(final String packagename){
+	public Panel fileList(final String packagename) {
 		List<MptFile> files = PackageBase.instance.getFiles(packagename);
-		VerticalPanel filesPanel = new VerticalPanel(files.size());
+		TablePanel filesPanel = new TablePanel(1, files.size());
 		for (MptFile s: files) {
 			final String name = s.name;
 			filesPanel.put(new InternalLink(name, new ClickHandler() {
@@ -116,13 +115,13 @@ public class RepoBrowser extends VerticalPanel {
 			}));
 		}
 		setNav(navRepo,packagename,"");
-		return filesPanel;
+		return filesPanel.asPanel(12);
 	}
 
-	public VerticalPanel displayFile(String pack, String name){
+	public Panel displayFile(String pack, String name) {
 		MptFile file = PackageBase.instance.getFile(pack ,name);
-		VerticalPanel f = new VerticalPanel(1);
-		f.put(new AceEditor(file.content, 1200, 1000,  AceMode.LUA, AceTheme.VIBRANT_INK));
+		Panel f = new Panel(12, 1);
+		f.put(new AceEditor(file.content, 800,  AceMode.LUA, AceTheme.VIBRANT_INK));
 		setNav(navRepo,navPackage,name);
 		return f;
 	}

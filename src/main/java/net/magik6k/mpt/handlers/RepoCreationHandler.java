@@ -14,7 +14,7 @@ public class RepoCreationHandler implements ClickHandler{
 	
 	@Override
 	public void clicked() {
-		user.userPanel.put(new RepoCreator(user));
+		user.userPanel.put(new RepoCreator(user).asPanel(12));
 	}
 
 }

@@ -6,19 +6,19 @@ import net.magik6k.jwwf.handlers.ClickHandler;
 import net.magik6k.jwwf.widgets.basic.TextLabel;
 import net.magik6k.jwwf.widgets.basic.input.InternalLink;
 import net.magik6k.jwwf.widgets.basic.panel.TablePanel;
-import net.magik6k.jwwf.widgets.basic.panel.VerticalPanel;
+import net.magik6k.jwwf.widgets.basic.panel.Panel;
 import net.magik6k.mpt.MptClient;
 import net.magik6k.mpt.db.PackageBase;
 import net.magik6k.mpt.handlers.YesNoHandler;
 import net.magik6k.mpt.view.Pack;
 
-public class RepoPackages extends VerticalPanel{
+public class RepoPackages extends Panel{
 	
 	private final MptClient user;
 	private final String repo;
 	
 	public RepoPackages(final MptClient user, final String repo) {
-		super(2);
+		super(12, 2);
 		this.user = user;
 		this.repo = repo;
 		
@@ -37,7 +37,7 @@ public class RepoPackages extends VerticalPanel{
 				
 				@Override
 				public void clicked() {
-					user.userPanel.put(new Pack(user, repo, pack));
+					user.userPanel.put(new Panel(12, 1, new Pack(user, repo, pack)));
 				}
 			}));
 			final int r = row++;
@@ -45,7 +45,7 @@ public class RepoPackages extends VerticalPanel{
 				
 				@Override
 				public void clicked() {
-					packageList.put(new YesNoHorizontal("REALLY DELETE THIS PACKAGE?", new YesNoHandler() {
+					packageList.put(new YesNoHorizontal("REALLY DELETE?", new YesNoHandler() {
 						
 						@Override
 						public void yes() {

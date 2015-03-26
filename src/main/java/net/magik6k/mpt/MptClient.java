@@ -9,9 +9,9 @@ import net.magik6k.jwwf.core.User;
 import net.magik6k.jwwf.oauth.OAuth2Button;
 import net.magik6k.jwwf.oauth.OAuthHandler;
 import net.magik6k.jwwf.widgets.basic.ExternalLink;
-import net.magik6k.jwwf.widgets.basic.PreformattedTextLabel;
+import net.magik6k.jwwf.widgets.basic.PreformatedTextLabel;
 import net.magik6k.jwwf.widgets.basic.TextLabel;
-import net.magik6k.jwwf.widgets.basic.panel.VerticalPanel;
+import net.magik6k.jwwf.widgets.basic.panel.Panel;
 import net.magik6k.mpt.db.UserBase;
 import net.magik6k.mpt.panel.UserPanel;
 import net.magik6k.mpt.util.IllegalUserActionException;
@@ -43,17 +43,17 @@ public class MptClient extends User{
 	
 	public void handleCriticalError(Exception ex){
 		TextLabel fail = new TextLabel("User has performed illegal action and/or an error ocured:");
-		PreformattedTextLabel exceptionLabel = new PreformattedTextLabel(ex.getMessage());
+		PreformatedTextLabel exceptionLabel = new PreformatedTextLabel(ex.getMessage());
 		StringWriter sw = new StringWriter();
 		ex.printStackTrace(new PrintWriter(sw));
-		PreformattedTextLabel stackLabel = new PreformattedTextLabel(sw.toString());
-		rootFrame.put(new VerticalPanel(3, fail, exceptionLabel, stackLabel));
+		PreformatedTextLabel stackLabel = new PreformatedTextLabel(sw.toString());
+		rootFrame.put(new Panel(3, fail, exceptionLabel, stackLabel));
 	}
 
 	private void viewLoginPanel(){
 		final MptClient clinetInstance = this;
 		
-		VerticalPanel frontPanel = new VerticalPanel(4);
+		Panel frontPanel = new Panel(4);
 		
 		frontPanel.put(new TextLabel("<h2>Welcome to MPTv2 web IDE</h2>"));
 		frontPanel.put(new TextLabel("To login simply click the login button. You may help making this place better by reporting issues on "));

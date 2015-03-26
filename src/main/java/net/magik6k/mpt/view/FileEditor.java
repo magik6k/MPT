@@ -3,54 +3,54 @@ package net.magik6k.mpt.view;
 import net.magik6k.jwwf.ace.AceEditor;
 import net.magik6k.jwwf.ace.AceMode;
 import net.magik6k.jwwf.ace.AceTheme;
-import net.magik6k.jwwf.enums.PanelAlign;
+import net.magik6k.jwwf.enums.Type;
 import net.magik6k.jwwf.handlers.CheckHandler;
 import net.magik6k.jwwf.handlers.ClickHandler;
 import net.magik6k.jwwf.handlers.TextHandler;
 import net.magik6k.jwwf.widgets.basic.TextLabel;
 import net.magik6k.jwwf.widgets.basic.input.Button;
 import net.magik6k.jwwf.widgets.basic.input.CheckButton;
-import net.magik6k.jwwf.widgets.basic.panel.HorizontalPanel;
-import net.magik6k.jwwf.widgets.basic.panel.VerticalPanel;
+import net.magik6k.jwwf.widgets.basic.panel.Panel;
+import net.magik6k.jwwf.widgets.basic.panel.Row;
 import net.magik6k.mpt.MptClient;
 import net.magik6k.mpt.db.PackageBase;
 import net.magik6k.mpt.plugin.FadeOutLabel;
 
-public class FileEditor extends VerticalPanel{
+public class FileEditor extends Row {
 
 	public FileEditor(final MptClient user, final String repo, final String pack, final String file) {
 		super(3);
-		HorizontalPanel menu = new HorizontalPanel(2, 32).setElementAlign(PanelAlign.MIDDLE);
-		
-		menu.put(new TextLabel("Editting "+pack+":<b>"+file+"</b>"));
-		menu.put(new Button("Back to Package", new ClickHandler() {
-			
+
+		Panel menu = new Panel(12, 2);
+		menu.put(new Button("Back to Package", Type.PRIMARY, new ClickHandler() {
+
 			@Override
 			public void clicked() {
 				user.userPanel.put(new Pack(user, repo, pack));
 			}
 		}));
-		
+		menu.put(new TextLabel("Editting "+pack+":<b>"+file+"</b>"));
+
 		this.put(menu);
 		
 		final FadeOutLabel actionLabel = new FadeOutLabel("Editting "+pack+":<b>"+file+"</b>");
-		class Autosave {public boolean enable = false;public int counter = 0;public AceEditor editor;}
-		final Autosave autosave = new Autosave();
+		class AutoSave {public boolean enable = false;public int counter = 0;public AceEditor editor;}
+		final AutoSave autoSave = new AutoSave();
 		
 		final AceEditor editor = new AceEditor(PackageBase.instance.getFile(pack, file).content, new TextHandler() {
 			
 			@Override
 			public void onType(String text) {
-				if(autosave.enable&&autosave.counter++%20==0){
-					PackageBase.instance.updateFile(pack, file, autosave.editor.getText());
+				if(autoSave.enable&& autoSave.counter++%20==0){
+					PackageBase.instance.updateFile(pack, file, autoSave.editor.getText());
 					actionLabel.setText("Auto-Saved");
 				}
 			}
-		}, 1200, 1000,  AceMode.LUA, AceTheme.VIBRANT_INK);
+		}, 800,  AceMode.LUA, AceTheme.VIBRANT_INK);
 		
-		autosave.editor = editor;
+		autoSave.editor = editor;
 		
-		Button save = new Button("Save", new ClickHandler() {
+		Button save = new Button("Save", Type.SUCCESS, new ClickHandler() {
 			
 			@Override
 			public void clicked() {
@@ -59,15 +59,15 @@ public class FileEditor extends VerticalPanel{
 			}
 		});
 		
-		CheckButton autosaveButton = new CheckButton("Autosave", new CheckHandler() {
+		CheckButton autoSaveButton = new CheckButton("Autosave", new CheckHandler() {
 			@Override
 			public void checked(boolean state) {
-				autosave.enable = state;
+				autoSave.enable = state;
 			}
 		});
 		
-		this.put(new HorizontalPanel(3, save, autosaveButton, actionLabel).setElementAlign(PanelAlign.MIDDLE));		
-		this.put(editor);
+		this.put(new Panel(12, 3, save, autoSaveButton, actionLabel));
+		this.put(new Panel(12, 1, editor));
 	}
 
 }

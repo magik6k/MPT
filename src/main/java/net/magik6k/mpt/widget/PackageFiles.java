@@ -5,8 +5,9 @@ import java.util.List;
 import net.magik6k.jwwf.handlers.ClickHandler;
 import net.magik6k.jwwf.widgets.basic.TextLabel;
 import net.magik6k.jwwf.widgets.basic.input.InternalLink;
+import net.magik6k.jwwf.widgets.basic.panel.Row;
 import net.magik6k.jwwf.widgets.basic.panel.TablePanel;
-import net.magik6k.jwwf.widgets.basic.panel.VerticalPanel;
+import net.magik6k.jwwf.widgets.basic.panel.Panel;
 import net.magik6k.mpt.MptClient;
 import net.magik6k.mpt.db.PackageBase;
 import net.magik6k.mpt.handlers.FileCreationHanlder;
@@ -15,7 +16,7 @@ import net.magik6k.mpt.util.Holder;
 import net.magik6k.mpt.util.MptFile;
 import net.magik6k.mpt.view.FileEditor;
 
-public class PackageFiles extends VerticalPanel{
+public class PackageFiles extends Row {
 	private final MptClient user;
 	
 	public PackageFiles(final MptClient user, final String repo, final String pack) {
@@ -28,7 +29,7 @@ public class PackageFiles extends VerticalPanel{
 				displayFiles(repo, pack);
 			}
 		}));
-		this.put(new TextLabel("<b>Files:</b>"));
+		this.put(new Panel(12, 1, new TextLabel("<b>Files:</b>")));
 		displayFiles(repo, pack);
 	}
 	
@@ -42,7 +43,7 @@ public class PackageFiles extends VerticalPanel{
 				
 				@Override
 				public void clicked() {
-					user.userPanel.put(new FileEditor(user, repo, pack, file.name));
+					user.userPanel.put(new FileEditor(user, repo, pack, file.name).asPanel(12));
 				}
 			}));
 			
@@ -72,7 +73,7 @@ public class PackageFiles extends VerticalPanel{
 		}
 		
 		
-		this.put(grid, 2);
+		this.put(new Panel(12, 1, grid), 2);
 	}
 	
 }
