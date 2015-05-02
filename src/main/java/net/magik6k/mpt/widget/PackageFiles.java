@@ -1,5 +1,6 @@
 package net.magik6k.mpt.widget;
 
+import java.util.Collections;
 import java.util.List;
 
 import net.magik6k.jwwf.handlers.ClickHandler;
@@ -35,6 +36,7 @@ public class PackageFiles extends Row {
 	
 	private void displayFiles(final String repo, final String pack){
 		List<MptFile> list = PackageBase.instance.getFiles(pack);
+		Collections.sort(list);
 		final TablePanel grid = new TablePanel(3, list.size());
 		
 		for(final MptFile file : list){

@@ -1,5 +1,6 @@
 package net.magik6k.mpt.widget;
 
+import java.util.Collections;
 import java.util.List;
 
 import net.magik6k.jwwf.handlers.ClickHandler;
@@ -29,7 +30,8 @@ public class RepoPackages extends Panel{
 	
 	private void makeList(){
 		List<String> packs = PackageBase.instance.getPackagesForRepo(repo);
-		
+		Collections.sort(packs);
+
 		final TablePanel packageList = new TablePanel(2, packs.size());
 		int row = 0;
 		for(final String pack : packs){

@@ -1,5 +1,6 @@
 package net.magik6k.mpt.view;
 
+import java.util.Collections;
 import java.util.List;
 
 import net.magik6k.jwwf.handlers.ClickHandler;
@@ -20,7 +21,8 @@ public class RepoList extends Row {
 		
 		TablePanel repoList = new TablePanel(3, repoCount);
 		List<String> repos = RepoBase.instance.getUserRepos(user.getAuth().getUsername());
-		
+		Collections.sort(repos);
+
 		for(final String repo : repos){
 			repoList.put(new TextLabel("<b style='font-weight:400;'>"+repo+"</b>"));
 			repoList.put(new InternalLink("View", new ClickHandler() {
