@@ -27,6 +27,7 @@ public class FileEditor extends Row {
 			@Override
 			public void clicked() {
 				user.userPanel.put(new Pack(user, repo, pack));
+				user.setTitle(pack + " - " + pack);
 			}
 		}));
 		menu.put(new TextLabel("Editting "+pack+":<b>"+file+"</b>"));

@@ -21,6 +21,7 @@ public class Pack extends Row {
 			@Override
 			public void clicked() {
 				user.userPanel.put(new Repo(user, repo));
+				user.setTitle(repo + " - Repo");
 			}
 		}).setType(Type.PRIMARY), new TextLabel("Package: <b style='font-size:21px;'>"+pack+"</b>")));
 		

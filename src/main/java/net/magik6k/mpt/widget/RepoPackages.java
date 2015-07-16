@@ -40,6 +40,7 @@ public class RepoPackages extends Panel{
 				@Override
 				public void clicked() {
 					user.userPanel.put(new Panel(12, 1, new Pack(user, repo, pack)));
+					user.setTitle(pack + " - " + repo);
 				}
 			}));
 			final int r = row++;

@@ -26,7 +26,7 @@ public class MptClient extends User{
 	
 	@Override
 	protected void initializeUser(final MainFrame rootFrame) {
-		viewLoginPanel();		
+		viewLoginPanel();
 	}
 	
 	public void logout(){
@@ -51,6 +51,7 @@ public class MptClient extends User{
 	}
 
 	private void viewLoginPanel(){
+		this.rootFrame.setTitle("User - MPT2");
 		final MptClient clinetInstance = this;
 		
 		Panel frontPanel = new Panel(4);
@@ -63,31 +64,35 @@ public class MptClient extends User{
 				, Settings.instance.getProperty("githubClientSecret")
 				, "https://github.com/login/oauth/authorize", "", Settings.instance.getProperty("githubAuthRedirURL")
 				, "https://github.com/login/oauth/access_token", new OAuthHandler() {
-					
-					@Override
-					public void authorized(String accessToken) {
-						rootFrame.put(new TextLabel("Please wait.. Checking your identity"));
-						GitHubClient client = new GitHubClient();
-						client.setOAuth2Token(accessToken);
-						UserService service = new UserService(client);
-						try {
-							org.eclipse.egit.github.core.User user = service.getUser();
-							if(!UserBase.instance.userExists(user.getLogin()));
-								try {
-									UserBase.instance.register(user.getLogin());
-								} catch (IllegalUserActionException e) {
-									handleCriticalError(e);
-								}
-							
-							auth.loginAs(user.getLogin());
-							userPanel = new UserPanel(clinetInstance);
-							rootFrame.put(userPanel);
-						} catch (IOException e) {
-							handleCriticalError(e);
-						}
+
+			@Override
+			public void authorized(String accessToken) {
+				rootFrame.put(new TextLabel("Please wait.. Checking your identity"));
+				GitHubClient client = new GitHubClient();
+				client.setOAuth2Token(accessToken);
+				UserService service = new UserService(client);
+				try {
+					org.eclipse.egit.github.core.User user = service.getUser();
+					if (!UserBase.instance.userExists(user.getLogin())) ;
+					try {
+						UserBase.instance.register(user.getLogin());
+					} catch (IllegalUserActionException e) {
+						handleCriticalError(e);
 					}
-				}));
+
+					auth.loginAs(user.getLogin());
+					userPanel = new UserPanel(clinetInstance);
+					rootFrame.put(userPanel);
+				} catch (IOException e) {
+					handleCriticalError(e);
+				}
+			}
+		}));
 		
 		rootFrame.put(frontPanel);
+	}
+
+	public void setTitle(String title) {
+		this.sendGlobal("mptTitle", "{\"title\": \"" + title + " - MPT2\"}");
 	}
 }

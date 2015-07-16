@@ -30,6 +30,7 @@ public class RepoList extends Row {
 				@Override
 				public void clicked() {
 					user.userPanel.put(new Repo(user, repo));
+					user.setTitle(repo + " - Repo");
 				}
 			}));
 			repoList.put(new InternalLink("Settings", new ClickHandler() {
@@ -37,6 +38,7 @@ public class RepoList extends Row {
 				@Override
 				public void clicked() {
 					user.userPanel.put(new RepoSettings(user, repo));
+					user.setTitle(repo + " - Settings");
 				}
 			}));
 		}

@@ -46,6 +46,7 @@ public class PackageFiles extends Row {
 				@Override
 				public void clicked() {
 					user.userPanel.put(new FileEditor(user, repo, pack, file.name).asPanel(12));
+					user.setTitle(file.name + " - " + pack + " - " + repo);
 				}
 			}));
 			

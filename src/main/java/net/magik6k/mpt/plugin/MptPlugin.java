@@ -14,6 +14,7 @@ public class MptPlugin extends JwwfPlugin implements IPluginGlobal {
 				, "	widget.element.html(data.text).stop().show().delay(250).fadeOut(500);");
 		
 		server.getCreator().appendHead("<style>.jwwfA {white-space: nowrap;}</style>");
+		server.getCreator().appendHead("<script>global[\"mptTitle\"] = function(data){document.title = data.title}</script>");
 	}
 
 }

@@ -33,12 +33,14 @@ public class UserPanel extends Row {
 			@Override
 			public void clicked() {
 				put(new UserProfile(user), 1);
+				user.setTitle("User");
 			}
 		});
 		Button repoBrowser = new Button("Repository Browser", new ClickHandler() {
 			@Override
 			public void clicked() {
 				user.userPanel.put(new RepoBrowser(user));
+				user.setTitle("Repository Browser");
 			}
 		});
 		Panel topBar = new Panel(4, titleLabel, logout, profile, repoBrowser).setWidth(12);
@@ -58,6 +60,7 @@ public class UserPanel extends Row {
 			@Override
 			public void clicked() {
 				inst.put(new UserProfile(user), 1);
+				user.setTitle("User");
 			}
 		}).setType(Type.PRIMARY);
 	}
