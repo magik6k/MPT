@@ -74,7 +74,7 @@ public class PackageFiles extends Row {
 			});
 			linkHolder.object = delete;
 			grid.put(delete);
-			grid.put(new ExternalLink("/api/file/" + pack + file, "Direct link"));
+			grid.put(new ExternalLink("/api/file/" + pack + file.name, "Direct link"));
 		}
 		
 		
