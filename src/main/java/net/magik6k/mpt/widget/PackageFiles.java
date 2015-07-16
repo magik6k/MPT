@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import net.magik6k.jwwf.handlers.ClickHandler;
+import net.magik6k.jwwf.widgets.basic.ExternalLink;
 import net.magik6k.jwwf.widgets.basic.TextLabel;
 import net.magik6k.jwwf.widgets.basic.input.InternalLink;
 import net.magik6k.jwwf.widgets.basic.panel.Row;
@@ -37,7 +38,7 @@ public class PackageFiles extends Row {
 	private void displayFiles(final String repo, final String pack){
 		List<MptFile> list = PackageBase.instance.getFiles(pack);
 		Collections.sort(list);
-		final TablePanel grid = new TablePanel(3, list.size());
+		final TablePanel grid = new TablePanel(4, list.size());
 		
 		for(final MptFile file : list){
 			grid.put(new TextLabel(new StringBuilder("<b style='font-weight:400;'>").append(file.name).append("</b>").toString()));
@@ -73,6 +74,7 @@ public class PackageFiles extends Row {
 			});
 			linkHolder.object = delete;
 			grid.put(delete);
+			grid.put(new ExternalLink("/api/file/" + pack + file, "Direct link"));
 		}
 		
 		

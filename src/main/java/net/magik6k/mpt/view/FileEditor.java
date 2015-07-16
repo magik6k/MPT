@@ -7,6 +7,7 @@ import net.magik6k.jwwf.enums.Type;
 import net.magik6k.jwwf.handlers.CheckHandler;
 import net.magik6k.jwwf.handlers.ClickHandler;
 import net.magik6k.jwwf.handlers.TextHandler;
+import net.magik6k.jwwf.widgets.basic.ExternalLink;
 import net.magik6k.jwwf.widgets.basic.TextLabel;
 import net.magik6k.jwwf.widgets.basic.input.Button;
 import net.magik6k.jwwf.widgets.basic.input.CheckButton;
@@ -21,16 +22,17 @@ public class FileEditor extends Row {
 	public FileEditor(final MptClient user, final String repo, final String pack, final String file) {
 		super(3);
 
-		Panel menu = new Panel(12, 2);
+		Panel menu = new Panel(12, 3);
 		menu.put(new Button("Back to Package", Type.PRIMARY, new ClickHandler() {
 
 			@Override
 			public void clicked() {
-				user.userPanel.put(new Pack(user, repo, pack));
+				user.userPanel.put(new Pack(user, repo, pack).asPanel(12));
 				user.setTitle(pack + " - " + pack);
 			}
 		}));
-		menu.put(new TextLabel("Editting "+pack+":<b>"+file+"</b>"));
+		menu.put(new TextLabel("Editting "+pack+":<b>"+file+"</b> "));
+		menu.put(new ExternalLink("/api/file/" + pack + file, "Direct link"));
 
 		this.put(menu);
 		
@@ -42,7 +44,7 @@ public class FileEditor extends Row {
 			
 			@Override
 			public void onType(String text) {
-				if(autoSave.enable&& autoSave.counter++%20==0){
+				if(autoSave.enable/*&& autoSave.counter++%20==0*/){
 					PackageBase.instance.updateFile(pack, file, autoSave.editor.getText());
 					actionLabel.setText("Auto-Saved");
 				}

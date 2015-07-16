@@ -29,7 +29,7 @@ public class RepoList extends Row {
 				
 				@Override
 				public void clicked() {
-					user.userPanel.put(new Repo(user, repo));
+					user.userPanel.put(new Repo(user, repo).asPanel(12));
 					user.setTitle(repo + " - Repo");
 				}
 			}));
@@ -37,7 +37,7 @@ public class RepoList extends Row {
 				
 				@Override
 				public void clicked() {
-					user.userPanel.put(new RepoSettings(user, repo));
+					user.userPanel.put(new RepoSettings(user, repo).asPanel(12));
 					user.setTitle(repo + " - Settings");
 				}
 			}));
