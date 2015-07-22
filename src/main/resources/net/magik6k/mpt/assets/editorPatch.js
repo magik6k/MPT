@@ -25,6 +25,12 @@ widgets.AceEditor.create = function(data, id){
 			enableLiveAutocompletion: false
 		});
 
+		editor.commands.on("afterExec", function(e){
+			 if (e.command.name == "insertstring"&&/^[\w.]$/.test(e.args)) {
+				editor.execCommand("startAutocomplete")
+			 }
+		})
+
 
 		return {element: element, data: {editorElement: editorElement, editor: editor}}
 	}
