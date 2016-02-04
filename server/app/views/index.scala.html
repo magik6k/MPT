@@ -1,0 +1,18 @@
+@(message: String)
+
+@main("MPT v3") {
+    <div id="root">
+        <div class="menu-holder">
+            <div>
+                <span>MPTv3</span>
+            </div>
+            <div id="side-menu"></div>
+        </div>
+        <div class="content">
+            <div id="tab-switcher" class="tab-switcher"></div>
+            <div id="tab-container" class="tab-container"></div>
+        </div>
+    </div>
+    @playscalajs.html.selectScript("client")
+    @playscalajs.html.launcher("client")
+}
