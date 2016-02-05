@@ -1,5 +1,6 @@
 package net.magik6k.mpt.client
 
+import net.magik6k.mpt.client.profile.ProfileTab
 import net.magik6k.mpt.client.tabs.TabManager
 import org.scalajs.dom.document
 import net.magik6k.mpt.client.menu._
@@ -8,7 +9,7 @@ import scala.scalajs.js
 object App extends js.JSApp {
   def main(): Unit = {
     val menu = new TreeMenu(
-      TreeEntry("Profile"),
+      TreeButton("Profile", () => ProfileTab.focus()),
       TreeEntry("Search Package"),
       TreeNode("Repositories",
         TreeNode("test-repo",

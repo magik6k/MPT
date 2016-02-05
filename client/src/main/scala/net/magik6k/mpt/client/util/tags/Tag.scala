@@ -1,6 +1,8 @@
 package net.magik6k.mpt.client.util.tags
 
+import net.magik6k.mpt.client.util.tags.Tags.div
 import org.scalajs.dom._
+import org.scalajs.dom.raw.HTMLElement
 import org.scalajs.jquery._
 
 import scala.scalajs.js
@@ -14,6 +16,9 @@ abstract class Tag(inner: Tag*) {
   def find(selector: String): JQuery = jq.find(selector)
   def find(element: js.Any): JQuery = jq.find(element)
   def find(obj: JQuery): JQuery = jq.find(obj)
+
+  def hide() = getNode.asInstanceOf[HTMLElement].style.visibility = "hidden"
+  def show() = getNode.asInstanceOf[HTMLElement].style.visibility = "visible"
 }
 
 object Tag {
@@ -28,12 +33,32 @@ object Tag {
   implicit def ofElement(element: Element): Tag = {
     new Tag() {
       override def getNode: Node = element
-
     }
   }
 
   implicit def elementTag(tag: Tag): Element = tag.getNode.asInstanceOf[Element]
 
+  /**
+    * Wraps DOM tag into Tag
+ *
+    * @param element Element to wrap
+    * @return Resulting tag
+    */
   def apply(element: Element) = ofElement(element)
+
+  /**
+    * Creates tag from html code
+ *
+    * @param html Code string
+    * @return html code inside div block
+    */
+  def apply(html: String): Tag = {
+    new Tag() {
+      val element = document.createElement("div")
+      element.innerHTML = html
+
+      override def getNode: Node = element
+    }
+  }
 }
 

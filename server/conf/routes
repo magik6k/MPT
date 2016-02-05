@@ -5,6 +5,9 @@
 # Home page
 GET     /                           controllers.Application.index
 
+# Tabs
+GET     /tab/profile                controllers.Application.profile
+
 # API
 
 # Map static resources from the /public folder to the /assets URL path
