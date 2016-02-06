@@ -1,5 +1,7 @@
 package net.magik6k.mpt.client.tabs
 
+import net.magik6k.mpt.client.util.{smallicon, icon}
+import net.magik6k.mpt.client.util.tags.Tags.div
 import org.scalajs.dom.document
 
 import scala.collection.immutable.HashSet
@@ -16,6 +18,7 @@ object TabManager {
 
   /**
     * Opens a tab. DOESN'T FOCUS IT!
+    *
     * @param tab The tab
     * @return Whether succeed
     */
@@ -30,6 +33,7 @@ object TabManager {
 
   /**
     * Focus a tab. Open if not opened
+    *
     * @param tab The tab
     * @return Whether succeed
     */
@@ -45,9 +49,22 @@ object TabManager {
     true
   }
 
+  def close(tab: Tab): Boolean = {
+    if(!tabs.contains(tab) || !tab.onClose()) return false
+    tabs -= tab
+    container.removeChild(tab.tabContent)
+    redrawTabList()
+    true
+  }
+
   protected def redrawTabList(): Unit = {
     while(switcher.firstChild != null)
       switcher.removeChild(switcher.firstChild)
-    tabs.foreach(t => switcher.appendChild(t.title))
+    tabs.foreach(t => switcher.appendChild(
+      div(
+        div(t.title).onclick(e => t.focus()),
+        div(smallicon("delete85")).onclick(e => t.close())
+      ).withClass("tab-title")
+    ))
   }
 }

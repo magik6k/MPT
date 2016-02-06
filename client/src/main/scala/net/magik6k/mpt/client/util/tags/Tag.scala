@@ -17,8 +17,15 @@ abstract class Tag(inner: Tag*) {
   def find(element: js.Any): JQuery = jq.find(element)
   def find(obj: JQuery): JQuery = jq.find(obj)
 
-  def hide() = getNode.asInstanceOf[HTMLElement].style.visibility = "hidden"
-  def show() = getNode.asInstanceOf[HTMLElement].style.visibility = "visible"
+  def hide() = {
+    getNode.asInstanceOf[HTMLElement].style.display = "none"
+    this
+  }
+  
+  def show() = {
+    getNode.asInstanceOf[HTMLElement].style.display = ""
+    this
+  }
 }
 
 object Tag {

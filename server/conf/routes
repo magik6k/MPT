@@ -5,8 +5,13 @@
 # Home page
 GET     /                           controllers.Application.index
 
+####
+GET     /login                      controllers.Application.login
+GET     /logout                     controllers.Application.logout
+
 # Tabs
 GET     /tab/profile                controllers.Application.profile
+GET     /tab/repositories           controllers.Application.repositories
 
 # API
 

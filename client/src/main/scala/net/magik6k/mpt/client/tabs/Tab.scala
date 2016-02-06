@@ -10,8 +10,10 @@ trait Tab {
   def onOpen(): Boolean = true
   def onFocus(): Boolean = true
   def onBlur(): Boolean = true
+  def onClose(): Boolean = true
 
   def title: Tag
 
   def focus(): Boolean = TabManager.focus(this)
+  def close(): Boolean = TabManager.close(this)
 }
