@@ -6,4 +6,8 @@ import slick.driver.JdbcProfile
 
 object GlobalModules {
   val dbConfig = DatabaseConfigProvider.get[JdbcProfile](Play.current)
+
+  def init() = {
+    Database.initialize()
+  }
 }
