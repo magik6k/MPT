@@ -13,11 +13,10 @@ import scala.scalajs.js
 object App extends js.JSApp {
   def main(): Unit = {
     val menu = new TreeMenu(
-      TreeButton(span(icon("left224"), "Logout"), () => window.location.href = "/logout"),
-      TreeButton(span(icon("users81"), "Profile"), () => ProfileTab.focus()),
+      TreeButton(span(icon("left224"), "Logout"), e => window.location.href = "/logout"),
+      TreeButton(span(icon("users81"), "Profile"), e => ProfileTab.focus()),
       TreeEntry(span(icon("magnifying47"), "Search Package")),
-      TreeNode("Repositories",
-        TreeButton(span(icon("configuration21"), "Manage"), () => RepositoriesTab.focus()),
+      TreeNodeButton("Repositories", e => RepositoriesTab.focus(),
         TreeNode("test-repo",
           TreeNode("some-package",
             TreeNode("[rw] master (some-package:dev)",
@@ -46,5 +45,6 @@ object App extends js.JSApp {
 
     document.getElementById("side-menu").appendChild(menu.tag)
     TabManager.initialize()
+    PathParser()
   }
 }
