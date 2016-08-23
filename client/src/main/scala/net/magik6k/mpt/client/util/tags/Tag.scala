@@ -59,9 +59,9 @@ object Tag {
     * @param html Code string
     * @return html code inside div block
     */
-  def apply(html: String): Tag = {
+  def apply(html: String, el: Element = document.createElement("div")): Tag = {
     new Tag() {
-      val element = document.createElement("div")
+      val element = el
       element.innerHTML = html
 
       override def getNode: Node = element

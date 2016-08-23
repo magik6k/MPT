@@ -1,4 +1,4 @@
-package pl.starchasers.panel.common.util
+package net.magik6k.mpt.common.util
 
 object Using {
   def apply[T <: { def close() }, B <: Any]

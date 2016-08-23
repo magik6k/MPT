@@ -12,6 +12,22 @@ GET     /logout                     controllers.Application.logout
 # Tabs
 GET     /tab/profile                controllers.Application.profile
 GET     /tab/repositories           controllers.Application.repositories
+GET     /tab/repository             controllers.Application.repository
+GET     /tab/package                controllers.Application.pack
+GET     /tab/file                   controllers.Application.file
+
+# Internal API
+GET     /api/v1/profile                     controllers.Api.profile
+
+GET     /api/v1/repository/defined/*repo    controllers.Api.repoExists(repo: String)
+GET     /api/v1/repository/of/*user         controllers.Api.userRepositories(user: String)
+GET     /api/v1/packages/in/*repo           controllers.Api.repoPackages(repo: String)
+
+GET     /api/v1/package/*pack/files         controllers.Api.packageFiles(pack: String)
+POST    /api/v1/package/*pack/file/create   controllers.Api.createFile(pack: String)
+
+POST    /api/v1/repository/add              controllers.Api.addRepository
+POST    /api/v1/packages/add                controllers.Api.addPackage
 
 # API
 

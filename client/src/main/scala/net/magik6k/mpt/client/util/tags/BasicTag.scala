@@ -13,6 +13,26 @@ abstract class BasicTag(tagName: String, inner: Tag*) extends Tag(inner: _*) {
     this
   }
 
+  def hasClass(clazz: String) = {
+    element.classList.contains(clazz)
+  }
+
+  def removeClass(clazz: String) = {
+    element.classList.remove(clazz)
+  }
+
+  def toggleClass(clazz: String) = {
+    if(hasClass(clazz))
+      removeClass(clazz)
+    else
+      withClass(clazz)
+  }
+
+  def set(inner: Tag*): Unit = {
+    while(element.firstChild != null) element.removeChild(element.firstChild)
+    inner.foreach(tag => element.appendChild(tag.getNode))
+  }
+
   def css(toSet: (String, String)*) = {
     toSet.foreach{
       case (name: String, value: String) =>

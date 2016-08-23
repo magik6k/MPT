@@ -22,10 +22,8 @@ lazy val server = (project in file("server")).settings(commonSettings("server"):
   libraryDependencies ++= Seq(
   	"com.vmunier" %% "play-scalajs-scripts" % "0.3.0",
     "org.webjars" % "jquery" % "1.11.1",
-    "me.chrons" %% "boopickle" % "1.1.0",
-    "com.typesafe.play" %% "play-slick" % "1.1.1",
-    "com.typesafe.play" %% "play-slick-evolutions" % "1.1.1",
-    "mysql" % "mysql-connector-java" % "5.1.21",
+    //"me.chrons" %% "boopickle" % "1.1.0",
+    "org.mongodb" % "mongo-java-driver" % "2.12.4",
     cache,
     ws,
     specs2 % Test
@@ -47,10 +45,12 @@ lazy val client = (project in file("client")).settings(commonSettings("client"):
   persistLauncher := true,
   persistLauncher in Test := false,
   emitSourceMaps in fullOptJS := development,
+  resolvers += "amateras-repo" at "http://amateras.sourceforge.jp/mvn/",
   libraryDependencies ++= Seq(
     "org.scala-js" %%% "scalajs-dom" % "0.8.0",
     "be.doeraene" %%% "scalajs-jquery" % "0.8.0",
-    "me.chrons" %%% "boopickle" % "1.1.0"
+    "com.scalawarrior" %%% "scalajs-ace" % "0.0.2"
+    //"me.chrons" %%% "boopickle" % "1.1.0"
   )
 ).enablePlugins(ScalaJSPlugin, ScalaJSPlay).
   dependsOn(commonJs)
@@ -64,12 +64,12 @@ lazy val common = (crossProject.crossType(CrossType.Pure) in file("common")).
 
 lazy val commonJvm = common.jvm.settings(
   libraryDependencies ++= Seq(
-    "me.chrons" %% "boopickle" % "1.1.0"
+    //"me.chrons" %% "boopickle" % "1.1.0"
   )
 )
 lazy val commonJs = common.js.settings(
   libraryDependencies ++= Seq(
-    "me.chrons" %%% "boopickle" % "1.1.0"
+    //"me.chrons" %%% "boopickle" % "1.1.0"
   )
 )
 

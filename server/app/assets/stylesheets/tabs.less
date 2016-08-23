@@ -3,16 +3,26 @@
   color: #f0f0f0;
 }
 
+.fullElement() {
+    width: 100%;
+    height: 100%;
+}
+
 .tab-container {
-  position: absolute;
+  position: relative;
+  .fullElement;
+  .tab-full {
+    .fullElement;
+  }
 }
 
 .tab-switcher {
   width: 100%;
   height: 24px;
-  background: #141414;
+  background: #313237;
   display: flex;
   padding-left: 16px;
+  border-bottom: 1px #212121 solid;
 }
 
 .tab-title {

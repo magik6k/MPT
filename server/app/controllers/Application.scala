@@ -29,11 +29,25 @@ class Application extends Controller {
     Redirect("/").withSession()
   }
 
+  //TABS
+
   def profile = Action {
     Ok(views.html.profile.profile())
   }
 
   def repositories = Action {
     Ok(views.html.repository.repositories())
+  }
+
+  def repository = Action {
+    Ok(views.html.repository.repository())
+  }
+
+  def pack = Action {
+    Ok(views.html.repository.pack())
+  }
+
+  def file = Action {
+    Ok(views.html.repository.file())
   }
 }

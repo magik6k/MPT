@@ -1,5 +1,4 @@
-package pl.starchasers.panel.common.util
-
+package net.magik6k.mpt.common.util
 
 object Prettify {
   def apply(bytes: Double): String = {
