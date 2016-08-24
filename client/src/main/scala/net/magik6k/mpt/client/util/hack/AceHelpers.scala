@@ -12,4 +12,9 @@ object AceHelpers {
     @js.native
     def edit(el: Node): ace.Editor = js.native
   }
+
+  implicit class MyAceEdit(a: ace.Ace) extends ace.Editor {
+    @js.native
+    def on(ev: String, cb: js.Function0[Unit]) = js.native
+  }
 }

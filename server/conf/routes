@@ -21,21 +21,31 @@ GET     /api/v1/profile                     controllers.Api.profile
 
 GET     /api/v1/repository/defined/*repo    controllers.Api.repoExists(repo: String)
 GET     /api/v1/repository/of/*user         controllers.Api.userRepositories(user: String)
+GET     /api/v1/repository/users/*repo      controllers.Api.repoUsers(repo: String)
 GET     /api/v1/packages/in/*repo           controllers.Api.repoPackages(repo: String)
 
 GET     /api/v1/package/:pack/files         controllers.Api.packageFiles(pack: String)
 POST    /api/v1/package/:pack/file/create   controllers.Api.createFile(pack: String)
 POST    /api/v1/package/:pack/file/save     controllers.Api.saveFile(pack: String)
+POST    /api/v1/package/:pack/file/delete   controllers.Api.deleteFile(pack: String)
+GET     /api/v1/package/:pack/dep/list      controllers.Api.packageDependencies(pack: String)
+POST    /api/v1/package/:pack/dep/delete    controllers.Api.packageDepDelete(pack: String)
+POST    /api/v1/package/:pack/dep/add       controllers.Api.packageDepAdd(pack: String)
 
 POST    /api/v1/repository/add              controllers.Api.addRepository
+POST    /api/v1/repository/adduser          controllers.Api.addRepositoryUser
+POST    /api/v1/repository/deluser          controllers.Api.delRepositoryUser
 POST    /api/v1/packages/add                controllers.Api.addPackage
 
 # API
 
 GET     /api/file/:pack/*file               controllers.PublicApi.getFile(pack: String, file: String)
+GET     /api/package/:pack                  controllers.PublicApi.getPackage(pack: String)
+POST    /api/update                         controllers.PublicApi.getUpdate
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 # Default to index
-GET     /*any                       controllers.Application.page(any: String)
+GET     /api/*any                           controllers.Api.notFound(any: String)
+GET     /*any                               controllers.Application.page(any: String)

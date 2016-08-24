@@ -45,6 +45,28 @@ object Database {
       .asInstanceOf[BasicDBObject].get("users").asInstanceOf[BasicDBList].contains(user)
   }
 
+  def repoUsers(repo: String) = {
+    val users = repositories.findOne(new BasicDBObject().append("name", repo)).get("users").asInstanceOf[BasicDBList]
+    users.toArray(new Array[String](users.size()))
+  }
+
+  def addRepoUser(repo: String, user: String): Unit = {
+    val r = repositories.findOne(new BasicDBObject().append("name", repo))
+    val users = r.get("users").asInstanceOf[BasicDBList]
+    users.add(user)
+    repositories.update(new BasicDBObject().append("name", repo), r)
+  }
+
+  def removeRepoUser(repo: String, user: String): Unit = {
+    val r = repositories.findOne(new BasicDBObject().append("name", repo))
+    val users = r.get("users").asInstanceOf[BasicDBList]
+    val newUsers = new BasicDBList
+    import scala.collection.JavaConversions._
+    users.map(u => u.asInstanceOf[String]).filterNot(_.equals(user)).foreach(newUsers.add)
+    r.put("users", newUsers)
+    repositories.update(new BasicDBObject().append("name", repo), r)
+  }
+
   /////////////////////
 
   def createPackage(name: String, repo: String): Unit = {
@@ -84,6 +106,23 @@ object Database {
     deps.toArray(new Array[String](deps.size()))
   }
 
+  def removeDependency(pack: String, dep: String) = {
+    val p = packages.findOne(new BasicDBObject().append("name", pack))
+    val dependencies = p.get("dependencies").asInstanceOf[BasicDBList]
+    val newDependencies = new BasicDBList
+    import scala.collection.JavaConversions._
+    dependencies.map(u => u.asInstanceOf[String]).filterNot(_.equals(dep)).foreach(newDependencies.add)
+    p.put("dependencies", newDependencies)
+    packages.update(new BasicDBObject().append("name", pack), p)
+  }
+
+  def addDependency(pack: String, dep: String) = {
+    val p = packages.findOne(new BasicDBObject().append("name", pack))
+    val dependencies = p.get("dependencies").asInstanceOf[BasicDBList]
+    dependencies.add(dep)
+    packages.update(new BasicDBObject().append("name", pack), p)
+  }
+
   def getPackageFile(pack: String, file: String): String = {
     val files = packages.findOne(new BasicDBObject().append("name", pack)).get("files").asInstanceOf[BasicDBObject]
     if(files.containsField(safeFile(file)))
@@ -106,6 +145,15 @@ object Database {
     recalculatePackageChecksum(pack)
   }
 
+  def removeFile(pack: String, file: String): Unit = {
+    val dbpack = packages.findOne(new BasicDBObject().append("name", pack))
+    val files = dbpack.get("files").asInstanceOf[BasicDBObject]
+    files.remove(file)
+    dbpack.put("files", files)
+    packages.update(new BasicDBObject().append("name", pack), dbpack)
+    recalculatePackageChecksum(pack)
+  }
+
   def saveFile(pack: String, file: String, content: String): Unit = {
     val dbpack = packages.findOne(new BasicDBObject().append("name", pack))
     val files = dbpack.get("files").asInstanceOf[BasicDBObject]
@@ -114,6 +162,11 @@ object Database {
     dbpack.put("files", files)
     packages.update(new BasicDBObject().append("name", pack), dbpack)
     recalculatePackageChecksum(pack)
+  }
+
+  def packageSummary(name: String) = {
+    val pack = packages.findOne(new BasicDBObject().append("name", name)).asInstanceOf[BasicDBObject]
+    (pack.getString("repo"), pack.getString("checksum"))
   }
 
   def recalculatePackageChecksum(pack: String): Unit = {

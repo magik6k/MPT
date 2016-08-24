@@ -16,5 +16,5 @@ trait Tab {
   def closeSafe = true
 
   def focus(): Boolean = TabManager.focus(this)
-  def close(): Boolean = TabManager.close(this)
+  def close(force: Boolean = false): Boolean = TabManager.close(this, force)
 }

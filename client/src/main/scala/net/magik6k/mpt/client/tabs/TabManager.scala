@@ -56,9 +56,9 @@ object TabManager {
     true
   }
 
-  def close(tab: Tab): Boolean = {
+  def close(tab: Tab, force: Boolean = false): Boolean = {
     if(!tabs.contains(tab) || !tab.onClose()) return false
-    if(tab.closeSafe || window.confirm("Are you sure you want to close unsaved tab?")) {
+    if(force || tab.closeSafe || window.confirm("Are you sure you want to close unsaved tab?")) {
       tabs -= tab
       container.removeChild(tab.tabContent)
       redrawTabList()

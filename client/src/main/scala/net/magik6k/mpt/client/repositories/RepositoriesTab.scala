@@ -2,9 +2,9 @@ package net.magik6k.mpt.client.repositories
 
 import net.magik6k.mpt.client.menu.Menu
 import net.magik6k.mpt.client.tabs.{HistoryTab, Tab}
-import net.magik6k.mpt.client.util.{REST, ResourceManager}
+import net.magik6k.mpt.client.util.{icon, REST, ResourceManager}
 import net.magik6k.mpt.client.util.tags.Tag
-import net.magik6k.mpt.client.util.tags.Tags.div
+import net.magik6k.mpt.client.util.tags.Tags.{span, div}
 import org.scalajs.dom.document
 import org.scalajs.dom.raw.{HTMLInputElement, MouseEvent, HTMLElement}
 
@@ -30,5 +30,5 @@ object RepositoriesTab extends HistoryTab("/repositories") {
     })
     resultContainer
   }
-  override def title: Tag = "Repositories"
+  override def title: Tag = span(icon("configuration21"), "Repositories")
 }
