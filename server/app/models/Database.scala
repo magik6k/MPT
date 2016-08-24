@@ -106,6 +106,16 @@ object Database {
     recalculatePackageChecksum(pack)
   }
 
+  def saveFile(pack: String, file: String, content: String): Unit = {
+    val dbpack = packages.findOne(new BasicDBObject().append("name", pack))
+    val files = dbpack.get("files").asInstanceOf[BasicDBObject]
+    val f = new BasicDBObject("content", content)
+    files.put(safeFile(file), f)
+    dbpack.put("files", files)
+    packages.update(new BasicDBObject().append("name", pack), dbpack)
+    recalculatePackageChecksum(pack)
+  }
+
   def recalculatePackageChecksum(pack: String): Unit = {
     val sum = VersionUtil.getPackageHash(pack)
     val update = packages.findOne(new BasicDBObject().append("name", pack))

@@ -6,8 +6,8 @@
 GET     /                           controllers.Application.index
 
 ####
-GET     /login                      controllers.Application.login
 GET     /logout                     controllers.Application.logout
+GET     /oauth/github               controllers.Application.authGithub(code: Option[String])
 
 # Tabs
 GET     /tab/profile                controllers.Application.profile
@@ -23,13 +23,16 @@ GET     /api/v1/repository/defined/*repo    controllers.Api.repoExists(repo: Str
 GET     /api/v1/repository/of/*user         controllers.Api.userRepositories(user: String)
 GET     /api/v1/packages/in/*repo           controllers.Api.repoPackages(repo: String)
 
-GET     /api/v1/package/*pack/files         controllers.Api.packageFiles(pack: String)
-POST    /api/v1/package/*pack/file/create   controllers.Api.createFile(pack: String)
+GET     /api/v1/package/:pack/files         controllers.Api.packageFiles(pack: String)
+POST    /api/v1/package/:pack/file/create   controllers.Api.createFile(pack: String)
+POST    /api/v1/package/:pack/file/save     controllers.Api.saveFile(pack: String)
 
 POST    /api/v1/repository/add              controllers.Api.addRepository
 POST    /api/v1/packages/add                controllers.Api.addPackage
 
 # API
+
+GET     /api/file/:pack/*file               controllers.PublicApi.getFile(pack: String, file: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

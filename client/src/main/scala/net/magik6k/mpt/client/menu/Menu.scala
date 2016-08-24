@@ -31,7 +31,7 @@ object Menu {
         repoMap = Map.empty[String, (mutable.Map[String, (mutable.Map[String, TreeNodeButton], TreeNodeButton)], TreeNodeButton)]
         val raw = JSON.parse(data)
         val repos: mutable.Seq[String] = raw.asInstanceOf[js.Array[String]]
-        repos.foreach(addRepo)
+        repos.sorted.foreach(addRepo)
       })
     })
   }
@@ -45,7 +45,7 @@ object Menu {
         repoMap += r -> ((mutable.Map.empty[String, (mutable.Map[String, TreeNodeButton], TreeNodeButton)], rbutton))
         val raw = JSON.parse(data)
         val packages: mutable.Seq[String] = raw.asInstanceOf[js.Array[String]]
-        packages.foreach(p => addPackage(r, p))
+        packages.sorted.foreach(p => addPackage(r, p))
       })
     })
   }
@@ -61,7 +61,7 @@ object Menu {
             val raw = JSON.parse(data)
             val files: mutable.Seq[String] = raw.asInstanceOf[js.Array[String]]
             //files.foreach(f => pbutton.add(TreeButton(f, e=>{})))
-            files.foreach(f => addFile(repo, name, f))
+            files.sorted.foreach(f => addFile(repo, name, f))
           })
         })
       case _ =>
@@ -69,7 +69,7 @@ object Menu {
   }
 
   def addFile(repo: String, pack: String, file: String): Unit = {
-    val fbutton = new TreeButton(file, e => FileTab.focus(repo, pack, file))
+    val fbutton = new TreeButton(file, e => FileTab.focus(pack, file))
 
     repoMap.get(repo) match {
       case Some((pmap, rbutton)) =>

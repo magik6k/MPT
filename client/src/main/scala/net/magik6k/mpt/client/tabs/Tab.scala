@@ -13,6 +13,7 @@ trait Tab {
   def onClose(): Boolean = true
 
   def title: Tag
+  def closeSafe = true
 
   def focus(): Boolean = TabManager.focus(this)
   def close(): Boolean = TabManager.close(this)

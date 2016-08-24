@@ -63,6 +63,26 @@ class Api extends Controller {
     }
   }
 
+  def saveFile(pack: String) = Action { request =>
+    request.session.get("login") match {
+      case Some(login: String) =>
+        if(Database.packageExists(pack) && Database.isRepoUser(Database.packageRepo(pack), login)) {
+          request.body.asJson match {
+            case Some(data: JsObject) =>
+              val f = data.value.get("file").head.asInstanceOf[JsString].value
+              val c = data.value.get("content").head.asInstanceOf[JsString].value
+              if (Database.fileExists(pack, f))
+                Database.saveFile(pack, f, c)
+              Ok("true")
+            case _ => Status(400)
+          }
+        }
+        else
+          Status(400)
+      case _ => Status(400)
+    }
+  }
+
   def repoExists(repo: String) = Action { request =>
     Ok(JsBoolean(Database.repoExists(repo)))
   }
